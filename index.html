@@ -226,6 +226,18 @@
     </div>
   </div>
   <script>
+    const noodleNoodleTypeList = [
+      { name: "ก๋วยเตี๋ยวน้ำใส", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/tgNfzKST/image.jpg" },
+      { name: "ก๋วยเตี๋ยวเย็นตาโฟ", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/qvLScfZ7/image.jpg" },
+      { name: "ก๋วยเตี๋ยวต้มยำ", price: 50, type: ["ธรรมดา", "พิเศษ"], spicy: true, img: "https://i.postimg.cc/2S6Mx9pF/image.jpg" },
+      { name: "ก๋วยเตี๋ยวเย็นตาโฟต้มยำ", price: 50, type: ["ธรรมดา", "พิเศษ"], spicy: true, img: "https://i.postimg.cc/xTqXVYMw/image.jpg" },
+      { name: "ก๋วยเตี๋ยวทะเล", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/nM8KQztP/image.jpg" },
+      { name: "บะหมี่เกี๊ยว", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/xCDbRZZX/image.jpg" },
+      { name: "เกี๊ยวน้ำ", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/mZ6TW9bw/image.jpg" },
+      { name: "เส้นปลาน้ำใส", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/pTzcGgX4/image.jpg" },
+      { name: "เกาเหลา", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/cLN0Vpxy/image.jpg" },
+      { name: "เกาเหลาเนื้อปลา", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/85zstVHP/image.webppg" }
+    ];
     const menuData = {
       rice: [
         { name: "ข้าวเปล่า", price: 10, img: "https://i.postimg.cc/QtrzJjSS/image.jpg" },
@@ -245,16 +257,18 @@
         { name: "กระเพราทะเล", price: 60, riceOrSide: true, addEgg: true, img: "https://i.postimg.cc/d3GYvZyG/image.jpg" }
       ],
       noodle: [
-        { name: "ก๋วยเตี๋ยวน้ำใส", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/tgNfzKST/image.jpg" },
-        { name: "ก๋วยเตี๋ยวเย็นตาโฟ", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/qvLScfZ7/image.jpg" },
-        { name: "ก๋วยเตี๋ยวต้มยำ", price: 50, type: ["ธรรมดา", "พิเศษ"], spicy: true, img: "https://i.postimg.cc/2S6Mx9pF/image.jpg" },
-        { name: "ก๋วยเตี๋ยวเย็นตาโฟต้มยำ", price: 50, type: ["ธรรมดา", "พิเศษ"], spicy: true, img: "https://i.postimg.cc/xTqXVYMw/image.jpg" },
-        { name: "ก๋วยเตี๋ยวทะเล", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/nM8KQztP/image.jpg" },
-        { name: "บะหมี่เกี๊ยว", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/xCDbRZZX/image.jpg" },
-        { name: "เกี๊ยวน้ำ", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/mZ6TW9bw/image.jpg" },
-        { name: "เส้นปลาน้ำใส", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/pTzcGgX4/image.jpg" },
-        { name: "เกาเหลา", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/cLN0Vpxy/image.jpg" },
-        { name: "เกาเหลาเนื้อปลา", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/85zstVHP/image.webppg" },
+        // เพิ่ม noodleType: true ให้กับเมนูก๋วยเตี๋ยวที่ไม่ใช่สุกี้
+        { name: "ก๋วยเตี๋ยวน้ำใส", price: 50, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/tgNfzKST/image.jpg" },
+        { name: "ก๋วยเตี๋ยวเย็นตาโฟ", price: 50, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/qvLScfZ7/image.jpg" },
+        { name: "ก๋วยเตี๋ยวต้มยำ", price: 50, type: ["ธรรมดา", "พิเศษ"], spicy: true, noodleType: true, img: "https://i.postimg.cc/2S6Mx9pF/image.jpg" },
+        { name: "ก๋วยเตี๋ยวเย็นตาโฟต้มยำ", price: 50, type: ["ธรรมดา", "พิเศษ"], spicy: true, noodleType: true, img: "https://i.postimg.cc/xTqXVYMw/image.jpg" },
+        { name: "ก๋วยเตี๋ยวทะเล", price: 60, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/nM8KQztP/image.jpg" },
+        { name: "บะหมี่เกี๊ยว", price: 50, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/xCDbRZZX/image.jpg" },
+        { name: "เกี๊ยวน้ำ", price: 50, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/mZ6TW9bw/image.jpg" },
+        { name: "เส้นปลาน้ำใส", price: 60, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/pTzcGgX4/image.jpg" },
+        { name: "เกาเหลา", price: 60, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/cLN0Vpxy/image.jpg" },
+        { name: "เกาเหลาเนื้อปลา", price: 60, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/85zstVHP/image.webppg" },
+        // สุกี้ไม่มี noodleType
         { name: "สุกี้น้ำ", chickenOrSeafood: true, img: "https://i.postimg.cc/MZjf4zwv/image.jpg" },
         { name: "สุุกี้แห้ง", chickenOrSeafood: true, img: "https://i.postimg.cc/K89YjWb6/image.webp" }
       ],
@@ -268,7 +282,7 @@
         { name: "ชาเขียว", price: 25, img: "https://i.postimg.cc/wxt0nhMC/image.jpg" }
       ],
       fried: [
-        { name: "ลูกชิ้น", price: 10, isQty: true, img: "https://i.postimg.cc/kgKdLjwp/1.png" },
+        { name: "ลูกชิ้น", price: 10, isQty: true, img: "https://i.postimg.cc/6pYZWppk/image.jpg" },
         { name: "เนื้อทอด", price: 60, size: ["จานเล็ก", "จานใหญ่"], prices: { "จานเล็ก": 60, "จานใหญ่": 100 }, img: "https://i.postimg.cc/DySQSFLR/image.jpg" },
         { name: "ปลากะพงลวกจิ้ม", price: 120, img: "https://i.postimg.cc/XqQ248MF/image.jpg" },
         { name: "ลูกชิ้นรวมลวกจิ้ม", price: 70, size: ["เล็ก", "ใหญ่"], prices: { "เล็ก": 70, "ใหญ่": 90 }, img: "https://i.postimg.cc/c1w00t5z/image.jpg" },
@@ -278,6 +292,9 @@
         { name: "ทาโกะยากิ", price: 5, takoyaki: true, img: "https://i.postimg.cc/TwnhW7C8/image.jpg" }
       ]
     };
+    const noodleTypeList = [
+      "เส้นใหญ่", "เส้นเล็ก", "หมี่ขาว", "บะหมี่", "วุ้นเส้น"
+    ];
     let currentCategory = "";
     let selectedItem = null;
     const bill = {};
@@ -305,6 +322,15 @@
       selectedItem = item;
       document.getElementById("toppingOptions").innerHTML = "";
       const toppingHTML = [];
+      // เส้นก๋วยเตี๋ยว (เฉพาะ noodleType: true)
+      if (currentCategory === "noodle" && item.noodleType) {
+        toppingHTML.push(`
+          <label>เลือกเส้น:</label>
+          <select id="noodleSelectType">
+            ${noodleTypeList.map(t => `<option value="${t}">${t}</option>`).join("")}
+          </select>
+        `);
+      }
       if (currentCategory === "fried") {
         if (item.isQty) {
           toppingHTML.push(`
@@ -381,6 +407,11 @@
       }
       let description = selectedItem.name;
       let price = selectedItem.price || 0;
+      // เส้นก๋วยเตี๋ยว
+      if (currentCategory === "noodle" && selectedItem.noodleType) {
+        const noodleSelectType = document.getElementById("noodleSelectType").value;
+        description += ` (${noodleSelectType})`;
+      }
       if (currentCategory === "fried") {
         if (selectedItem.isQty) {
           const qty = parseInt(document.getElementById("qty").value) || 1;
@@ -472,7 +503,6 @@
         e.preventDefault();
         return false;
       }
-      // bill_detail already updated in updateBill()
     });
   </script>
 </body>
