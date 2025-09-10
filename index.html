@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ระบบสั่งอาหาร Grab Style</title>
   <style>
-    /* ... (CSS unchanged, same asเดิม) ... */
     * {
       box-sizing: border-box;
       font-family: 'Prompt', sans-serif;
@@ -154,6 +153,12 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+    /* Egg menu popup style (reuse topping-section style) */
+    #eggMenuSection {
+      margin-top: 1rem;
+      background: #fffde7;
+      border-left: 4px solid #ffe082;
+    }
     @media (max-width: 480px) {
       .menu-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -210,6 +215,11 @@
       <div id="toppingOptions"></div>
       <button class="btn" onclick="addToBill()">เพิ่มในบิล</button>
     </div>
+    <!-- Egg menu popup -->
+    <div class="topping-section hidden" id="eggMenuSection">
+      <h3>เลือกเมนูไข่</h3>
+      <div class="menu-grid" id="eggMenuItems"></div>
+    </div>
     <!-- Bill section now includes the form -->
     <div class="bill" id="billSection">
       <h3>บิลโต๊ะ <span id="currentTable">-</span></h3>
@@ -217,7 +227,7 @@
       <strong>รวมทั้งหมด: <span id="totalPrice">0</span> บาท</strong>
       <br>
       <!-- Form for sending bill -->
-      <form id="sendBillForm" action="https://formsubmit.co/nawinyxmin1@gmail.com" method="POST" target="_blank">
+      <form id="sendBillForm" action="https://formsubmit.co/seya8772@gmail.com" method="POST" target="_blank">
         <input type="hidden" name="_subject" value="บิลสั่งอาหารโต๊ะจากระบบ Grab Style">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="bill_detail" id="bill_detail">
@@ -226,17 +236,10 @@
     </div>
   </div>
   <script>
-    const noodleNoodleTypeList = [
-      { name: "ก๋วยเตี๋ยวน้ำใส", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/tgNfzKST/image.jpg" },
-      { name: "ก๋วยเตี๋ยวเย็นตาโฟ", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/qvLScfZ7/image.jpg" },
-      { name: "ก๋วยเตี๋ยวต้มยำ", price: 50, type: ["ธรรมดา", "พิเศษ"], spicy: true, img: "https://i.postimg.cc/2S6Mx9pF/image.jpg" },
-      { name: "ก๋วยเตี๋ยวเย็นตาโฟต้มยำ", price: 50, type: ["ธรรมดา", "พิเศษ"], spicy: true, img: "https://i.postimg.cc/xTqXVYMw/image.jpg" },
-      { name: "ก๋วยเตี๋ยวทะเล", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/nM8KQztP/image.jpg" },
-      { name: "บะหมี่เกี๊ยว", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/xCDbRZZX/image.jpg" },
-      { name: "เกี๊ยวน้ำ", price: 50, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/mZ6TW9bw/image.jpg" },
-      { name: "เส้นปลาน้ำใส", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/pTzcGgX4/image.jpg" },
-      { name: "เกาเหลา", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/cLN0Vpxy/image.jpg" },
-      { name: "เกาเหลาเนื้อปลา", price: 60, type: ["ธรรมดา", "พิเศษ"], img: "https://i.postimg.cc/QCFzX6Xt/2.jpg" }
+    const eggMenu = [
+      { name: "ไข่ดาว", price: 10, img: "https://i.postimg.cc/Pf9Tkz4Y/image.jpg" },
+      { name: "ไข่ต้มยางมะตูม", price: 10, img: "https://i.postimg.cc/jdM652DH/image.jpg" },
+      { name: "ไข่เจียว", price: 30, img: "https://i.postimg.cc/yNPbYsC2/image.jpg" }
     ];
     const menuData = {
       rice: [
@@ -257,7 +260,6 @@
         { name: "กระเพราทะเล", price: 60, riceOrSide: true, addEgg: true, img: "https://i.postimg.cc/d3GYvZyG/image.jpg" }
       ],
       noodle: [
-        // เพิ่ม noodleType: true ให้กับเมนูก๋วยเตี๋ยวที่ไม่ใช่สุกี้
         { name: "ก๋วยเตี๋ยวน้ำใส", price: 50, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/tgNfzKST/image.jpg" },
         { name: "ก๋วยเตี๋ยวเย็นตาโฟ", price: 50, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/qvLScfZ7/image.jpg" },
         { name: "ก๋วยเตี๋ยวต้มยำ", price: 50, type: ["ธรรมดา", "พิเศษ"], spicy: true, noodleType: true, img: "https://i.postimg.cc/2S6Mx9pF/image.jpg" },
@@ -267,8 +269,7 @@
         { name: "เกี๊ยวน้ำ", price: 50, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/mZ6TW9bw/image.jpg" },
         { name: "เส้นปลาน้ำใส", price: 60, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/pTzcGgX4/image.jpg" },
         { name: "เกาเหลา", price: 60, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/cLN0Vpxy/image.jpg" },
-        { name: "เกาเหลาเนื้อปลา", price: 60, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/85zstVHP/image.webppg" },
-        // สุกี้ไม่มี noodleType
+        { name: "เกาเหลาเนื้อปลา", price: 60, type: ["ธรรมดา", "พิเศษ"], noodleType: true, img: "https://i.postimg.cc/QCFzX6Xt/2.jpg" },
         { name: "สุกี้น้ำ", chickenOrSeafood: true, img: "https://i.postimg.cc/MZjf4zwv/image.jpg" },
         { name: "สุุกี้แห้ง", chickenOrSeafood: true, img: "https://i.postimg.cc/K89YjWb6/image.webp" }
       ],
@@ -286,10 +287,9 @@
         { name: "เนื้อทอด", price: 60, size: ["จานเล็ก", "จานใหญ่"], prices: { "จานเล็ก": 60, "จานใหญ่": 100 }, img: "https://i.postimg.cc/DySQSFLR/image.jpg" },
         { name: "ปลากะพงลวกจิ้ม", price: 120, img: "https://i.postimg.cc/XqQ248MF/image.jpg" },
         { name: "ลูกชิ้นรวมลวกจิ้ม", price: 70, size: ["เล็ก", "ใหญ่"], prices: { "เล็ก": 70, "ใหญ่": 90 }, img: "https://i.postimg.cc/c1w00t5z/image.jpg" },
-        { name: "ไข่ดาว", price: 10, img: "https://i.postimg.cc/Pf9Tkz4Y/image.jpg" },
-        { name: "ไข่ต้มยางมะตูม", price: 10, img: "https://i.postimg.cc/jdM652DH/image.jpg" },
-        { name: "ไข่เจียว", price: 30, img: "https://i.postimg.cc/yNPbYsC2/image.jpg" },
-        { name: "ทาโกะยากิ", price: 5, takoyaki: true, img: "https://i.postimg.cc/TwnhW7C8/image.jpg" }
+        { name: "ทาโกะยากิ", price: 5, takoyaki: true, img: "https://i.postimg.cc/TwnhW7C8/image.jpg" },
+        // ปุ่มไข่ใหม่ (ไม่มีรูปไข่)
+        { name: "ไข่", isEggMenu: true }
       ]
     };
     const noodleTypeList = [
@@ -309,20 +309,25 @@
       const items = menuData[category];
       const menuHTML = items.map((item, index) => `
         <div class="menu-card" onclick="selectItem(${index})">
-          <img src="${item.img || 'https://via.placeholder.com/70?text=No+Img'}" alt="food" />
-          <p>${item.name}${item.price ? `<br><small>${item.price} บาท</small>` : ""}</p>
+          ${item.img && !item.isEggMenu ? `<img src="${item.img}" alt="food" />` : ""}
+          <p>${item.name}${item.price && !item.isEggMenu ? `<br><small>${item.price} บาท</small>` : ""}</p>
         </div>
       `).join("");
       document.getElementById("menuItems").innerHTML = menuHTML;
       document.getElementById("menuSection").classList.remove("hidden");
       document.getElementById("toppingSection").classList.add("hidden");
+      document.getElementById("eggMenuSection").classList.add("hidden");
     }
     function selectItem(index) {
       const item = menuData[currentCategory][index];
+      // ถ้าเป็นปุ่มไข่ ให้แสดง Egg Menu
+      if (currentCategory === "fried" && item.isEggMenu) {
+        showEggMenu();
+        return;
+      }
       selectedItem = item;
       document.getElementById("toppingOptions").innerHTML = "";
       const toppingHTML = [];
-      // เส้นก๋วยเตี๋ยว (เฉพาะ noodleType: true)
       if (currentCategory === "noodle" && item.noodleType) {
         toppingHTML.push(`
           <label>เลือกเส้น:</label>
@@ -398,6 +403,22 @@
       }
       document.getElementById("toppingOptions").innerHTML = toppingHTML.join("<br>");
       document.getElementById("toppingSection").classList.remove("hidden");
+      document.getElementById("eggMenuSection").classList.add("hidden");
+    }
+    function showEggMenu() {
+      document.getElementById("toppingSection").classList.add("hidden");
+      document.getElementById("eggMenuSection").classList.remove("hidden");
+      document.getElementById("eggMenuItems").innerHTML = eggMenu.map((egg, idx) => `
+        <div class="menu-card" onclick="selectEggItem(${idx})">
+          <img src="${egg.img}" alt="${egg.name}" />
+          <p>${egg.name}<br><small>${egg.price} บาท</small></p>
+        </div>
+      `).join("");
+    }
+    function selectEggItem(idx) {
+      selectedItem = eggMenu[idx];
+      addToBill();
+      document.getElementById("eggMenuSection").classList.add("hidden");
     }
     function addToBill() {
       const table = document.getElementById("table").value;
@@ -407,10 +428,9 @@
       }
       let description = selectedItem.name;
       let price = selectedItem.price || 0;
-      // เส้นก๋วยเตี๋ยว
       if (currentCategory === "noodle" && selectedItem.noodleType) {
-        const noodleSelectType = document.getElementById("noodleSelectType").value;
-        description += ` (${noodleSelectType})`;
+        const noodleSelectType = document.getElementById("noodleSelectType")?.value;
+        if (noodleSelectType) description += ` (${noodleSelectType})`;
       }
       if (currentCategory === "fried") {
         if (selectedItem.isQty) {
@@ -441,33 +461,39 @@
         }
       }
       if (selectedItem.type && currentCategory === "noodle") {
-        const noodleType = document.getElementById("noodleType").value;
-        description += ` (${noodleType})`;
-        if (noodleType === "พิเศษ") {
-          price += 10;
+        const noodleType = document.getElementById("noodleType")?.value;
+        if (noodleType) {
+          description += ` (${noodleType})`;
+          if (noodleType === "พิเศษ") {
+            price += 10;
+          }
         }
       }
       if (selectedItem.riceOrSide) {
-        const type = document.getElementById("riceOrSide").value;
-        description += ` (${type})`;
+        const type = document.getElementById("riceOrSide")?.value;
+        if (type) description += ` (${type})`;
       }
-      if (selectedItem.addEgg && document.getElementById("addEgg").checked) {
+      if (selectedItem.addEgg && document.getElementById("addEgg")?.checked) {
         description += " +ไข่ดาว";
         price += 10;
       }
       if (selectedItem.spicy) {
-        const spicy = document.getElementById("spicyLevel").value;
-        description += ` (${spicy})`;
+        const spicy = document.getElementById("spicyLevel")?.value;
+        if (spicy) description += ` (${spicy})`;
       }
       if (selectedItem.chickenOrSeafood) {
-        const sukiyakiType = document.getElementById("sukiyakiType").value;
-        description += ` (${sukiyakiType})`;
-        price = sukiyakiType === "ไก่" ? 60 : 70;
+        const sukiyakiType = document.getElementById("sukiyakiType")?.value;
+        if (sukiyakiType) {
+          description += ` (${sukiyakiType})`;
+          price = sukiyakiType === "ไก่" ? 60 : 70;
+        }
       }
+      // สำหรับเมนูไข่ที่อยู่ใน eggMenu (เลือกผ่าน eggMenuSection)
       if (!bill[table]) bill[table] = [];
       bill[table].push({ description, price });
       updateBill();
       document.getElementById("toppingSection").classList.add("hidden");
+      document.getElementById("eggMenuSection").classList.add("hidden");
     }
     function updateBill() {
       const table = document.getElementById("table").value;
@@ -479,7 +505,6 @@
         </li>`).join("");
       const total = list.reduce((sum, item) => sum + item.price, 0);
       document.getElementById("totalPrice").textContent = total;
-
       // Update form hidden field for sending
       let billText = `บิลของโต๊ะ ${table}:\n`;
       list.forEach((item, idx) => {
@@ -494,8 +519,6 @@
       bill[table].splice(index, 1);
       updateBill();
     }
-    // No need for custom sendBill(), handled by formsubmit.co
-    // But, prevent submit if bill empty
     document.getElementById("sendBillForm").addEventListener("submit", function(e) {
       const table = document.getElementById("table").value;
       if (!table || !bill[table] || bill[table].length === 0) {
